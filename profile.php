@@ -1,7 +1,6 @@
 <!DOCTYPE>
 <?php
-require_once __DIR__ . '/db_con.php';
-    $conn=db_connect();
+    $conn=mysqli_connect('localhost','root','','bookstore');
     $userid=$_GET['userid'];
 
     session_start();

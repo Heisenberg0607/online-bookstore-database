@@ -1,0 +1,6 @@
+assets/dist/** linguist-vendored
+css/styles.css linguist-vendored
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

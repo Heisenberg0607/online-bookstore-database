@@ -7,7 +7,7 @@ if(isset($_GET["page"])){
 } else {
     $page = 1; // 게시판 처음 들어가면 1페이지로 시작
 }
-    $conn=db_connect();
+    $conn=mysqli_connect('localhost','root','','bookstore');
 
     session_start();
     $total=0;
@@ -200,7 +200,7 @@ if(isset($_GET["page"])){
                     <?php
                         if(isset($_SESSION['userid']))
                         {
-                            if($role=="user"||$role=="root"){?>
+                            if($role=="user"||"root"){?>
                             <td width="200",align="center"><a href="item.php?bookid=<?php echo $board['bookid'];?>">
                         <img class="img-responsive img-thumbnail" src="./image/<?php echo $board['bookimage']; ?>">
                         </a>

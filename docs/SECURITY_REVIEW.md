@@ -1,29 +1,31 @@
-# Security and maintenance review
+# Security & publication review — historical original source
 
-**Status: legacy coursework; local demonstration only. Do not expose to the public internet.**
+**Archival purpose only. Do not deploy publicly.** This is a focused source review, not a complete penetration test or runtime security certification.
 
-This review documents important issues observed directly in the uploaded source. It is not a comprehensive pentest. Preparing a GitHub repository is **not** evidence that the application is secure or fully runnable.
+## Sensitive configuration inventory
 
-| Topic | Original / remaining behavior | Recommended follow-up |
+- The original ZIP contains **no `.env` file**, no checked-in PEM/SSH private keys, and no obvious external API tokens in a pattern-based source inspection.
+- `db_con.php` and multiple other PHP files use local MySQL connection arguments (`localhost`, `root`, empty password, `bookstore`). These values do **not** appear to be externally issued secrets, but **must not** be used in a real deployment.
+- `database/bookstore.sql` stores a small set of **classroom test account IDs and plaintext passwords**. The repository owner stated these were fabricated test data. They are restored unchanged for archival accuracy; do not reuse any of their passwords for real accounts.
+- The checkout page has fields labeled CARD NUMBER, CARD ID, and EXPIRY DATE. The source does not demonstrate a payment processor; entering real payment-card information into this form is unsafe.
+- We cannot rule out all private information or third-party content rights from code scanning alone. Check the source, original images, and contributor permissions before publishing.
+
+## Original-code security limitations
+
+| Topic | Observed original behavior | Safer approach in a future rewrite |
 | --- | --- | --- |
-| SQL injection | Several remaining handlers interpolate untrusted input into SQL (`search_result.php`, `cartadd.php`, `change_cart.php`, `item.php`, `profile.php`, etc.) | Use prepared statements and strict type/column whitelists throughout |
-| Access control | Administrative and other write endpoints lack consistent server-side role checks; request parameters can supply target user IDs | Centralize login + role authorization; derive user ID from session |
-| CSRF | State-changing endpoints do not require CSRF tokens; some operations use GET | Require POST, CSRF tokens, and same-site cookies |
-| Input validation / XSS | Raw database/user strings are printed in HTML; upload filenames and contents are weakly validated | Contextual HTML escaping; server-side validation and safe random upload names |
-| Passwords | Original signup stored plaintext and used GET; original login compared raw plaintext | **Partially addressed for new local accounts:** POST, `password_hash`/`password_verify`, prepared signup/login |
-| Checkout data | Original mock checkout asked for payment-card-like input without a processor | **Removed from public copy**; local demo order only, no payment details |
-| DB configuration | Original code used hard-coded root/blank connection in multiple places | **Centralized** in `db_con.php` with environment support; local-only defaults remain |
-| Transactions | Order transfer performs insert/delete without a transaction | Wrap order placement in a transaction; handle rollback and consistency |
-| Monetary schema | Prices and amounts use floating point | Replace with `DECIMAL` or integer smallest currency unit |
-| Compatibility / tests | Original dependencies and scripts are from 2021–2022; no automated tests supplied | Add pinned runtime/container and integration tests |
+| Password handling | Original signup stores plaintext passwords and sends the signup form via GET; login uses plaintext equality | POST + password hashing (`password_hash` / `password_verify`), secure session settings |
+| SQL injection | Multiple queries interpolate request parameters directly | Prepared statements, input validation and allowed query fields |
+| Authorization | Administrative or modifying endpoints do not reliably enforce role and session ownership server-side | Server-side authorization and use session identity for changes |
+| CSRF | State-changing handlers lack CSRF protection; some use GET | POST with CSRF tokens and SameSite cookies |
+| Output / uploads | User-controlled strings and uploaded filenames are insufficiently validated or escaped | HTML escaping, restrictive upload handling |
+| Database connection | Several PHP files hard-code root / empty password | Least-privileged DB account and secret configuration outside repository |
+| Order integrity | Copies cart to orders and deletes cart without an encompassing transaction | Atomic transactions, rollback handling |
+| Money data type | Uses floating-point `FLOAT` amounts | `DECIMAL` or integer minor units |
+| Payment UX | Card-like fields are displayed; no secure checkout integration is implemented | Remove fields or integrate a compliant payment gateway |
 
-### Integrity and licensing
+## Publication guidance
 
-- The original SQL contained fake or possibly personally identifying account fields and plaintext passwords; **those rows are not redistributed**.
-- Original commercial descriptions and book-cover images are omitted from the public copy. Screenshots reproduced from the group report remain historical illustrations.
-- The full student-group report is omitted to avoid publishing collaborators' identifying details without a separate review.
-- The original Bootstrap libraries and theme assets are retained for compatibility; their licenses/attribution should be checked before public licensing.
+GitHub can host this **source repository** for historical review, but do not host a **running PHP/MySQL application** on a public internet-facing server. Do not commit future `.env` files, actual passwords, API keys, certificates, database exports with real users, logs, or uploaded content. The `.gitignore` is only a convenience; already tracked files and past Git history are not protected retroactively.
 
-### Publishing recommendation
-
-Start with a **private GitHub repository**. Review collaborator permissions and refactor unsafe endpoints before making it public or enabling a live demo. A static portfolio website may link to screenshots and describe the academic work without hosting the application.
+The original book descriptions, jacket images, and third-party theme assets may be subject to copyrights. Keep the repository private until collaborators and applicable content rights have been considered.

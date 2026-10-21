@@ -1,20 +1,21 @@
-# Schema notes (actual SQL dump)
+# Database schema (original SQL dump)
 
-The uploaded report describes a conceptual extension for multiple authors, but the supplied database dump defines only these tables:
+The original `database/bookstore.sql` file is retained byte-for-byte from the submitted coursework.
 
-| Table | Primary key | Key relationships | Purpose |
+| Table | Primary key | Relationships | Purpose |
 | --- | --- | --- | --- |
-| `book` | `bookid` | Referenced by cart, orders and rate | Book metadata and price |
-| `user` | `userid` | Referenced by cart, orders and rate | Account information and application permission |
-| `cart` | (`userid`, `bookid`) | Foreign keys to user and book | Each user's current cart line per book |
-| `orders` | `orderid` | Foreign keys to user and book | One row per ordered book line, **not** a normalized header/line-item design |
-| `rate` | (`userid`, `bookid`) | Foreign keys to user and book | One rating and review per user per book |
+| `book` | `bookid` | Referenced by cart, orders, and rate | Catalog books |
+| `user` | `userid` | Referenced by cart, orders, and rate | Test accounts and user permissions |
+| `cart` | (`userid`, `bookid`) | Foreign keys to `user` and `book` | Shopping cart lines |
+| `orders` | `orderid` | Foreign keys to `user` and `book` | Stored purchased book lines |
+| `rate` | (`userid`, `bookid`) | Foreign keys to `user` and `book` | User reviews and ratings |
 
-## Design limitations of the original schema
+The group report also proposed tables for multiple book authors (`few_author`, `bA`), but these are **not** in the original SQL dump.
 
-- `book.price`, `cart.amount`, and `orders.amount` are `FLOAT`, which is inappropriate for exact monetary amounts; a redesign should use `DECIMAL(10,2)` or integer cents.
-- `orders` has no order timestamp, separate order header, fulfillment/payment status, or snapshot-safe product references.
-- Cascading deletes may remove order history when a user or book is deleted; production order history needs a different retention design.
-- Book authors are stored as plain text instead of a join table. The proposed `few_author` and `bA` tables are not in the actual dump.
-- `user.password` was stored in plaintext in the original dump. Public version retains the `varchar(100)` column and updates registration/login to hash/verify, but other security gaps remain.
-- The public SQL ships no accounts or transaction records, and creates eight fictional catalog entries referencing `image/noimage.png`.
+## Design limitations
+
+- Prices and calculated amounts are stored as `FLOAT`; production systems should use `DECIMAL` (or integer currency units).
+- `orders` stores one purchased book per row, rather than separate order headers and lines. It lacks order time and payment or fulfillment status.
+- `ON DELETE CASCADE` on order references could delete historical records when a book or user is removed.
+- `user.password` contains plaintext **fictional test** passwords in the historical dump.
+- Collected book descriptions may contain original encoding artifacts and third-party copyrighted text; unchanged here for archival fidelity.

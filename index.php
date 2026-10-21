@@ -9,7 +9,7 @@ include_once "db_con.php"; // 데이터베이스에 연결
         $page = 1; // 게시판 처음 들어가면 1페이지로 시작
     }
 
-    $conn=db_connect();
+    $conn=mysqli_connect('localhost','root','','bookstore');
     $sql="select * from book";
 
     $result=mysqli_query($conn,$sql);
@@ -205,7 +205,7 @@ include_once "db_con.php"; // 데이터베이스에 연결
                     <?php
                         if(isset($_SESSION['userid']))
                         {
-                            if($role=="user"||$role=="root"){?>
+                            if($role=="user"||"root"){?>
                             <td width="200",align="center"><a href="item.php?bookid=<?php echo $board['bookid'];?>">
                         <img class="img-responsive img-thumbnail" src="./image/<?php echo $board['bookimage']; ?>">
                         </a>

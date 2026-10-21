@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/db_con.php';
-    $conn=db_connect();
+    $conn=mysqli_connect('localhost','root','','bookstore');
     $sql="select * from book";
     $query="select * from user";
 

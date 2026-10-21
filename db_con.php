@@ -1,32 +1,14 @@
 <?php
-/**
- * Database connection for the archived coursework application.
- * Configure DB_HOST, DB_USER, DB_PASSWORD and DB_NAME in your local environment.
- * Defaults match a typical WAMP localhost development installation.
- * This does NOT make the legacy SQL queries safe for public deployment.
- */
-function db_connect() {
-    static $connection = null;
-    if ($connection instanceof mysqli) {
-        return $connection;
+    $db_id="root"; // DB 계정명
+    $db_pw=""; // DB 계정 비밀번호
+    $db_name="bookstore"; // 연결할 데이터베이스명
+    $db_domain="localhost"; // 연결할 도메인
+    $db=mysqli_connect($db_domain,$db_id,$db_pw,$db_name);
+
+    // SQL 쿼리문 간단하게 쓰기 위한 함수 mq 선언
+    function mq($sql){
+        global $db;
+        return $db->query($sql);
     }
-
-    $host = getenv('DB_HOST') ?: 'localhost';
-    $user = getenv('DB_USER') ?: 'root';
-    $password = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '';
-    $database = getenv('DB_NAME') ?: 'bookstore';
-
-    $connection = mysqli_connect($host, $user, $password, $database);
-    if (!$connection) {
-        http_response_code(500);
-        exit('Could not connect to the database. Check local configuration.');
-    }
-    mysqli_set_charset($connection, 'utf8mb4');
-    return $connection;
-}
-
-$db = db_connect();
-function mq($sql) {
-    global $db;
-    return mysqli_query($db, $sql);
-}
+// 이 php 파일 만든 후에 sql 연결 필요하면 include하여 mq("실행할_쿼리문"); 이렇게 사용하면 됩니다.
+?>

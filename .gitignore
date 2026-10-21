@@ -1,0 +1,23 @@
+# Environment files, local credentials and developer-specific overrides
+.env
+.env.*
+!.env.example
+*.local.php
+config.local.php
+*.pem
+*.key
+
+# OS, editor, logs, backups
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+error_log
+*.bak
+*.swp
+
+# Future user-uploaded material and temporary files (the historical image files remain tracked)
+image/uploads/
+tmp/
+.cache/

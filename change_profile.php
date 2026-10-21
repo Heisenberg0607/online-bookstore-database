@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/db_con.php';
-    $connect=db_connect();
+    $connect=mysqli_connect('localhost','root','','bookstore');
     
     $name=$_POST["name"];
     $address=$_POST["address"];

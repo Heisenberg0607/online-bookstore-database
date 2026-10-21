@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/db_con.php';
-    $conn=db_connect();
+    $conn=mysqli_connect('localhost','root','','bookstore');
     $sql="select * from book";
     $query="select * from user";
 
@@ -161,13 +160,47 @@ require_once __DIR__ . '/db_con.php';
             </div>
         </div>
                 </br>
-        <!-- This is a coursework-only order simulation, not a payment processor. -->
-        <div class="alert alert-warning my-4" role="alert">
-            Demo checkout only. No payment is processed. Do not submit personal or payment details.
-        </div>
-        <form method="post" action="order.php">
-            <input type="hidden" name="userid" value="<?php echo htmlspecialchars($userid ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-            <button type="submit" class="btn btn-outline-dark">Place demo order</button>
+        <form method = "post" action = "order.php" enctype="multipart/form-data">
+        <table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
+                <tr>
+                <td height=20 align= center bgcolor=#ccc><font color=white>PURCHASE</font></td>
+                </tr>
+                <tr>
+                <td bgcolor=white>
+                <table class = "table2">
+                <input type = hidden name ="userid" size=83 value="<?php echo $userid?>"></td>
+
+                        <tr>
+                        <td>ADDRESS</td>
+                        <td><input type = text name ="isbn" size=83 required="required"></td>
+                        </tr>
+
+                        <tr>
+                        <td>NAME</td>
+                        <td><input type = text name = title size=83 required="required"></td>
+                        </tr>
+                        
+                        <tr>
+                        <td>CARD NUMBER</td>
+                        <td><input type = text name = "author" size=83 required="required"></td>
+                        </tr>
+
+                        <tr>
+                        <td>CARD ID</td>
+                        <td><input type = text  name = "price" size=83 required="required"></td>
+                        </tr>
+
+                        <tr>
+                        <td>EXPIRY DATE</td>
+                        <td><input type = text  name = "publisher" size=83 required="required"></td>
+                        </tr>
+                        </table>
+                        <center>
+                        <input type = "submit" class="btn btn-outline-dark" name="order" value="ORDER BOOKS">
+                        </center>
+                </td>
+                </tr>
+        </table>
         </form>
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>

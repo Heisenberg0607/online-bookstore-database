@@ -1,44 +1,43 @@
 # Online Bookstore — Database Systems Course Project
 
-> **Historical coursework (2021–2022) · PHP + MySQL · Group project**
+> Historical coursework (2021–2022) · PHP + MySQL · Five-person team project
 >
-> ⚠️ **For educational review and local development only. Not production-ready or safe to expose to the public internet.** See [security review](docs/SECURITY_REVIEW.md).
+> **Archival, local-use project.** The original application is not suitable for public deployment. See [Security & maintenance notes](docs/SECURITY_REVIEW.md).
 
-A relational-database-driven online bookstore built for a Database Systems group project at Peking University. The prototype connects a PHP website to MySQL and illustrates CRUD operations, relationships between entities, and a basic user-to-order workflow.
+A relational-database-backed online bookstore developed as a Database Systems group project at Peking University. The application connects a PHP website to MySQL to demonstrate entity relationships, SQL-backed CRUD workflows, and a basic bookstore management interface.
 
+![Original bookstore homepage](docs/screenshots/01-home.png)
 
-![Historical bookstore homepage](docs/screenshots/01-home.png)
+## Key features
 
-## Features demonstrated
-
-| Area | Functionality |
+| Area | Implemented in the submitted project source |
 | --- | --- |
-| Catalog | Browse books, view details, and search by title, author or publisher |
-| Administration | Add, edit and remove books; inspect recorded orders |
-| Accounts | Register, log in, and manage a local session |
-| Shopping cart | Add books, edit quantities, remove items |
-| Orders | Transfer cart items to an order table (demo only; no payment integration) |
-| Reviews | Submit/update a book rating and review; view aggregated rating |
+| Book catalog | Browse books, inspect book details, and search by title, author, or publisher |
+| Administration | Add, edit, and remove books; view stored orders |
+| User accounts | Registration, login, and session-based navigation |
+| Shopping cart | Add or remove books and change quantities |
+| Order records | Create order rows from cart contents (coursework demo, **not** a payment integration) |
+| Reviews | Submit book ratings/reviews and view rating information |
 
-These features are **present in the submitted source code**. They have not been end-to-end retested on a running web server for this repository preparation.
+These functions are reflected in the original source code and group report. They have **not** been end-to-end retested in a running web server as part of this archive preparation.
 
-## Technology
+## Technology stack
 
-- **Backend:** PHP, MySQLi
-- **Database:** MySQL (original dump: 5.7.31)
+- **Database:** MySQL (original database dump: MySQL 5.7.31)
+- **Backend:** PHP (original environment: PHP 7.3.21), MySQLi
 - **Frontend:** HTML, CSS, Bootstrap, JavaScript
-- **Original local setup:** WAMP / phpMyAdmin (original PHP version: 7.3.21)
+- **Original development setup:** WAMP and phpMyAdmin
 
-## Database relationships
+## Database design
 
-The publicly shared database script retains the **five tables actually found in the SQL dump**: `user`, `book`, `cart`, `orders`, and `rate`.
+The supplied SQL dump defines five tables: `user`, `book`, `cart`, `orders`, and `rate`. Foreign keys connect carts, orders, and reviews to the relevant user and book records.
 
 ```mermaid
 erDiagram
     user ||--o{ cart : owns
-    book ||--o{ cart : contains
+    book ||--o{ cart : includes
     user ||--o{ orders : places
-    book ||--o{ orders : appears_in
+    book ||--o{ orders : references
     user ||--o{ rate : writes
     book ||--o{ rate : receives
     user {
@@ -72,68 +71,63 @@ erDiagram
     }
 ```
 
-The report also *proposed* `few_author` and `bA` for many-to-many authorship, but neither table appears in the supplied SQL dump. Accordingly, they are **not claimed as implemented**. Additional notes: [Schema](docs/SCHEMA.md).
+The report discussed optional multi-author tables (`few_author` and `bA`), but these are not present in the supplied SQL dump and are not counted as implemented. See [schema notes](docs/SCHEMA.md).
 
 ## My contributions
 
-This was a five-person team project. My work focused on the database and the book catalog data:
+This was a five-person team project. My work focused on database implementation and collecting book metadata:
 
-- **Database schema & relationships (team collaboration):** Worked with teammates to design the `user`, `book`, `cart`, `orders`, and `rate` tables and define primary/foreign-key relationships between them.
-- **SQL development:** Wrote SQL statements for database table creation and data retrieval/manipulation to support the bookstore's core workflows.
-- **Book data collection:** Collected book information from online sources and organized the catalog data used in the original project.
-
-*The public repository contains fictional sample data rather than the original collected dataset.*
-
-## Run locally
-
-**Requirements:** a local PHP environment with MySQLi enabled, MySQL/phpMyAdmin, and a web server such as WAMP. The original environment was PHP 7.3 / MySQL 5.7; compatibility with newer versions has **not** been verified.
-
-1. Create a database named `bookstore` with UTF-8 (`utf8mb4`) support.
-2. Import [`database/bookstore.sql`](database/bookstore.sql) through phpMyAdmin or `mysql -u root -p bookstore < database/bookstore.sql`.
-3. Place the repository folder under your WAMP `www` directory (for example `wamp64/www/online-bookstore-database`).
-4. Configure local database credentials with environment variables `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` (default localhost / root / blank password / bookstore is intended **only** for isolated WAMP-style development).
-5. Open `http://localhost/online-bookstore-database/index.php`.
-6. To test member functions, use **SignIn** to create a fresh local account. To test administrator screens in an isolated local DB, promote **your own local test account** using `UPDATE user SET permission='root' WHERE userid='YOUR_TEST_ID';` (`root` here is an application role).
-
-> The public SQL contains fictional example books only; it does **not** include the original user profiles, passwords, orders, carts, reviews, or original commercial book descriptions. Book cover files have been replaced with the existing placeholder image. The report's full source document is not redistributed.
+- **Database schema & relationships (team collaboration):** Collaborated on the design of the `user`, `book`, `cart`, `orders`, and `rate` tables and their primary/foreign-key relationships.
+- **SQL development:** Wrote SQL for database tables and data retrieval/manipulation supporting the bookstore workflows.
+- **Book data collection:** Collected and organized book catalog data from online sources for the project.
 
 ## Screenshots from the original report
 
-| Book management | Cart and orders |
+| Add/edit books | Shopping cart |
 | --- | --- |
-| ![Book entry form](docs/screenshots/02-add-book.png) | ![Shopping cart](docs/screenshots/03-cart.png) |
-| ![Admin order page](docs/screenshots/04-admin-orders.png) | ![Rating and review UI](docs/screenshots/05-ratings.png) |
+| ![Book form](docs/screenshots/02-add-book.png) | ![Shopping cart](docs/screenshots/03-cart.png) |
+
+| Admin orders | Ratings and reviews |
+| --- | --- |
+| ![Admin orders](docs/screenshots/04-admin-orders.png) | ![Ratings and reviews](docs/screenshots/05-ratings.png) |
 
 ![Catalog search](docs/screenshots/06-search.png)
 
-These historical screenshots illustrate the original group-project interface and may show the original sample data rather than the anonymized sample data shipped here.
+## Run locally (historical setup)
 
-## Repository map
+**Local-only:** Use a private, isolated development environment; do not expose the web server to the public internet. The original code contains insecure authentication and database access patterns.
+
+1. Install a local PHP/MySQL stack with MySQLi support, such as WAMP. The coursework was originally developed using PHP 7.3 / MySQL 5.7; modern versions have not been validated.
+2. Create a local MySQL database named `bookstore` and import [`database/bookstore.sql`](database/bookstore.sql) using phpMyAdmin.
+3. Place the repository directory under your local WAMP `www` directory.
+4. The original [`db_con.php`](db_con.php) and several other PHP files use `localhost`, the MySQL `root` account, and an empty database password. These are **historical local development values**, not settings for a real server. Adjust the database configuration **only in your local copy**, and do not commit actual database passwords.
+5. Open `http://localhost/online-bookstore-database/index.php` (adjust the URL if you use another directory name).
+6. The original SQL includes **fictional classroom test accounts**, with passwords stored in plaintext; use them only in an isolated test setup. Never use actual personal credentials or payment-card information.
+
+**Dataset fidelity:** This repository now retains the originally submitted SQL dump, its 15 collected book records, five fictional test account rows, original sample cart/review records, and original `image/` assets. It is intentionally a historical snapshot rather than a modernized production application. Some original catalog descriptions, cover images, and metadata may carry third-party rights; review permissions before redistributing them in a public repository.
+
+## Repository structure
 
 ```text
 .
-├── index.php, item.php, search_result.php   # Catalog and search
-├── login.php, signin.php, profile.php        # User flows
-├── cart.php, purchase.php, orders.php        # Cart and order flows
-├── add.php, edit.php, *.php                  # Administrative and form handlers
-├── db_con.php                               # Local DB environment configuration
-├── database/bookstore.sql                   # Five-table schema + fictional seed data
-├── assets/, css/, js/, image/               # Website resources
-└── docs/                                    # Screenshots, schema and security review
+├── index.php, item.php, search_result.php  # Browse and search books
+├── login.php, signin.php, profile.php       # User-facing account pages
+├── cart.php, purchase.php, order.php        # Cart, order form and handler
+├── add.php, edit.php, *.php                 # Book and administrative functions
+├── db_con.php                               # Original local database connection
+├── database/bookstore.sql                   # Unmodified original SQL dump and test records
+├── image/                                    # Original project assets and book covers
+├── assets/, css/, js/                        # Website assets
+└── docs/                                     # Project screenshots and technical notes
 ```
 
-## Limitations and improvements
+## Limitations and project context
 
-The original implementation illustrates database-backed web development rather than a secure e-commerce product. It still has important problems: unsafe SQL construction in multiple handlers, missing authorization checks, lack of CSRF protection, insufficient input/file upload validation, use of `FLOAT` for prices, and no atomic order transaction. The demo checkout intentionally does not collect payment details. **Do not deploy this application publicly.**
+The original coursework uses plaintext test passwords, hard-coded local DB settings, dynamically built SQL queries, and payment-card-like form fields with no payment service integration. It also lacks comprehensive authorization checks, transaction handling, and production security controls. **Do not deploy this source to a public server or enter real credit card details.** See [Security & maintenance notes](docs/SECURITY_REVIEW.md).
 
-See [Security & technical debt](docs/SECURITY_REVIEW.md). Potential next version: refactor CRUD through parameterized statements and authorization middleware; use `DECIMAL` for money; implement transactions, tests and containerized setup.
+- **Course:** Database Systems, Peking University, 2021–2022
+- **Team:** Five students
+- **Source:** Original submitted PHP source, MySQL dump, and historical course-report screenshots
+- **Repository preparation (2026):** Documentation and GitHub organization only. Original project PHP, SQL records, and images were restored without claiming later improvements as student coursework.
 
-## Project context and attribution
-
-- **Context:** Database Systems final group project, Peking University, 2021–2022.
-- **Team:** 5 students (per submitted report).
-- **Individual contribution:** Database schema and relationship design (with teammates), SQL development, and book data collection. See [My contributions](#my-contributions).
-- **Source:** Based on the submitted project source, MySQL dump and group report. The report and original sample records are not published here.
-- **Public-sharing edits (2026):** anonymized/fictional database seed data, consolidated local connection settings, prepared/hashed registration and login, removal of the mock credit-card form, removal of commercial book-cover assets, and documentation. These are housekeeping/security improvements and are **not claimed as part of the original coursework**.
-
-**Licensing:** This repository includes group-project code and third-party Bootstrap assets. No new open-source license is asserted for the group work. Confirm collaborator permissions before making the repository public.
+**Licensing:** This includes group-project code and third-party website assets / commercial book content. No blanket open-source license is asserted. Please confirm collaborator permission and applicable content rights before public redistribution.

@@ -1,7 +1,10 @@
-# Preparation validation
+# Restoration and validation record
 
-**Completed:** PHP CLI syntax check (`php -l`) passed on all 23 PHP files in the prepared repository; SQL file was reconstructed from the five `CREATE TABLE` definitions and three foreign-key ALTER statements in the submitted dump; screenshots were extracted from the uploaded group report; original user/cart/order/rating seed records are not included; mock credit-card fields were removed.
+- Restored every original PHP source file unchanged from the supplied `bookstore.zip`.
+- Restored `database/bookstore.sql` from the original dump, including the original sample rows.
+- Restored all original book cover and other `image/` assets from `bookstore.zip`.
+- Kept report-derived screenshots from the earlier repository preparation.
+- Rewrote README and schema/security notes to accurately describe the historical source.
+- PHP syntax was checked with PHP CLI (`php -l`), and the restored original PHP/SQL/image files were compared byte-for-byte against supplied originals.
 
-**Not completed:** booting MySQL, importing the database into a running server, browser-based end-to-end tests, verification on a particular WAMP/PHP runtime, automated security testing, or performance benchmarking.
-
-**Local smoke-test checklist:** create an empty MySQL `bookstore` database, import the public SQL, load the home page, register a local test user, log in, browse/search a book, add it to cart, place a **demo** order, post a review, and test admin screens after promoting your own local test account. If any step fails, document the runtime and traceback before changing code.
+**Not checked:** running MySQL import, HTTP/browser workflows, modern runtime compatibility, vulnerability exploitation, or ownership/licensing of included imagery and descriptions.

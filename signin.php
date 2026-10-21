@@ -39,7 +39,7 @@
   <body class="text-center">
     
 <main class="form-signin">
-  <form method="post" action="signincheck.php">
+  <form method="get" action="signincheck.php">
     <img class="mb-4" src="assets/favicon.ico" alt="" width="72" height="72">
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
