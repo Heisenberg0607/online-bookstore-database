@@ -6,7 +6,6 @@
 
 A relational-database-driven online bookstore built for a Database Systems group project at Peking University. The prototype connects a PHP website to MySQL and illustrates CRUD operations, relationships between entities, and a basic user-to-order workflow.
 
-**Languages:** [English](README.md) · [한국어](README.ko.md)
 
 ![Historical bookstore homepage](docs/screenshots/01-home.png)
 
