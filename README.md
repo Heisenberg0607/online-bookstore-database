@@ -74,6 +74,16 @@ erDiagram
 
 The report also *proposed* `few_author` and `bA` for many-to-many authorship, but neither table appears in the supplied SQL dump. Accordingly, they are **not claimed as implemented**. Additional notes: [Schema](docs/SCHEMA.md).
 
+## My contributions
+
+This was a five-person team project. My work focused on the database and the book catalog data:
+
+- **Database schema & relationships (team collaboration):** Worked with teammates to design the `user`, `book`, `cart`, `orders`, and `rate` tables and define primary/foreign-key relationships between them.
+- **SQL development:** Wrote SQL statements for database table creation and data retrieval/manipulation to support the bookstore's core workflows.
+- **Book data collection:** Collected book information from online sources and organized the catalog data used in the original project.
+
+*The public repository contains fictional sample data rather than the original collected dataset.*
+
 ## Run locally
 
 **Requirements:** a local PHP environment with MySQLi enabled, MySQL/phpMyAdmin, and a web server such as WAMP. The original environment was PHP 7.3 / MySQL 5.7; compatibility with newer versions has **not** been verified.
@@ -122,7 +132,7 @@ See [Security & technical debt](docs/SECURITY_REVIEW.md). Potential next version
 
 - **Context:** Database Systems final group project, Peking University, 2021–2022.
 - **Team:** 5 students (per submitted report).
-- **Individual contribution:** _To be verified and documented before recruiting/public presentation._
+- **Individual contribution:** Database schema and relationship design (with teammates), SQL development, and book data collection. See [My contributions](#my-contributions).
 - **Source:** Based on the submitted project source, MySQL dump and group report. The report and original sample records are not published here.
 - **Public-sharing edits (2026):** anonymized/fictional database seed data, consolidated local connection settings, prepared/hashed registration and login, removal of the mock credit-card form, removal of commercial book-cover assets, and documentation. These are housekeeping/security improvements and are **not claimed as part of the original coursework**.
 
